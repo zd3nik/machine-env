@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+export QTVER="5.6.3"
+export TME_VERSION="2.8.5.4"
+
+# TODO update QTVER and/or TME_VERSION based on which branch is specified
+case "$1" in
+  3.*)
+    BRANCH="$1"
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;37m\][\[\033[01;35m\]\u \[\033[01;33m\]$BRANCH\[\033[01;37m\]]\[\033[00;36m\]\w\[\033[01;37m\]> \[\033[00m\]'
+    ;;
+  *)
+    BRANCH="trunk"
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;37m\][\[\033[01;35m\]\u\[\033[01;37m\]]\[\033[00;36m\]\w\[\033[01;37m\]> \[\033[00m\]'
+    ;;
+esac
+
+export TME_PACKAGE="$HOME/share/jenkins/tme-libs/${TME_VERSION}/tme-${TME_VERSION}-Linux.tgz"
+export CMAKE_PREFIX_PATH="$HOME/usr/vendor-$BRANCH"
+export VENDOR_INSTALL_DIR="$CMAKE_PREFIX_PATH"
+
+# add $GCC_DIR/usr/lib64:$GCC_DIR/lib ???
+export LD_LIBRARY_PATH="$QTLIB:$CMAKE_PREFIX_PATH/lib"
+
+# TODO if QTVER < 5.6 export QTDIR="/opt/Qt${QTVER}/${QTVER%.*}/gcc_64"
+export QTDIR="/opt/Qt${QTVER}/${QTVER}/gcc_64"
+export QTSRC="${QTDIR}/src"
+export QTINC="${QTDIR}/include"
+export QTLIB="${QTDIR}/lib"
+export QMAKESPEC="linux-g++-64"
+export PATH="$QTDIR/bin:$PATH"
+
+mkdir -p "$HOME/development/$BRANCH"
+cd "$HOME/development/$BRANCH"
+

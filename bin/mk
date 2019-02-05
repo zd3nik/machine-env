@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+if [ -f Makefile ]; then
+    make $*
+elif [ -f ../Makefile ]; then
+    make -f ../Makefile $*
+else
+    make --help
+    return 1
+fi
+
+[ $? -eq 0 ] && echo -e "\e[92mOK\e[0m" || echo -e "\e[91mFAILED\e[0m"
+
