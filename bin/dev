@@ -2,6 +2,7 @@
 
 export QTVER="5.6.3"
 export TME_VERSION="2.8.5.4"
+NO_CD=0
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -17,26 +18,22 @@ while [ $# -gt 0 ]; do
       [ "$2" ] && TME_VERSION="$2"
       shift 2
       ;;
-    -*)
-      echo "usage: $(basename $0) [-h] [-n] [-qt QTVER] [-tme TME_VERSION]" >&2
-      exit 1
+    [0-9]*)
+      export BRANCH="$1"
+      shift
+      PS1='${debian_chroot:+($debian_chroot)}\[\033[01;37m\][\[\033[01;35m\]\u\[\033[01;33m\]$(gb), svn $BRANCH\[\033[01;37m\]]\[\033[00;36m\]\w\[\033[01;37m\]> \[\033[00m\]'
+      ;;
+    trunk)
+      export BRANCH="trunk"
+      shift
+      PS1='${debian_chroot:+($debian_chroot)}\[\033[01;37m\][\[\033[01;35m\]\u\[\033[01;33m\]$(gb)\[\033[01;37m\]]\[\033[00;36m\]\w\[\033[01;37m\]> \[\033[00m\]'
       ;;
     *)
-      break
+      echo "usage: $(basename $0) [-h] [-n] [-qt QTVER] [-tme TME_VERSION] branch" >&2
+      exit 1
       ;;
   esac
 done
-
-case "$1" in
-  [0-9]*)
-    export BRANCH="$1"
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;37m\][\[\033[01;35m\]\u\[\033[01;33m\]$(gb), svn $BRANCH\[\033[01;37m\]]\[\033[00;36m\]\w\[\033[01;37m\]> \[\033[00m\]'
-    ;;
-  *)
-    export BRANCH="trunk"
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;37m\][\[\033[01;35m\]\u\[\033[01;33m\]$(gb)\[\033[01;37m\]]\[\033[00;36m\]\w\[\033[01;37m\]> \[\033[00m\]'
-    ;;
-esac
 
 export PROMPT_COMMAND='echo -ne "\\e]0;[${BRANCH} Qt ${QTVER}] $(pwd)\\007"'
 export TME_PACKAGE="$HOME/share/jenkins/tme-libs/${TME_VERSION}/tme-${TME_VERSION}-Linux.tgz"
@@ -52,9 +49,9 @@ export QMAKESPEC="linux-g++-64"
 export PATH="$QTDIR/bin:$PATH"
 
 # add $GCC_DIR/usr/lib64:$GCC_DIR/lib ???
-export DEV_LD_LIBRARY_PATH="$QTLIB:$CMAKE_PREFIX_PATH/lib"
+export LD_PATH="$QTLIB:$CMAKE_PREFIX_PATH/lib"
 
-if [ "$NO_CD" != "1" ]; then
+if [ $NO_CD -ne 1 ]; then
   mkdir -p "$HOME/development/$BRANCH"
   cd "$HOME/development/$BRANCH"
 fi
