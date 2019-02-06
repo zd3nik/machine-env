@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+echo "$(git branch 2>/dev/null | grep -E '^\*' | awk "{ print \",\" substr(\$0, 2) }")"
