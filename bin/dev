@@ -7,7 +7,7 @@ export TME_VERSION="2.8.5.4"
 case "$1" in
   3.*)
     export BRANCH="$1"
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;37m\][\[\033[01;35m\]\u\[\033[01;33m\]$(gb), $BRANCH\[\033[01;37m\]]\[\033[00;36m\]\w\[\033[01;37m\]> \[\033[00m\]'
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;37m\][\[\033[01;35m\]\u\[\033[01;33m\]$(gb), svn $BRANCH\[\033[01;37m\]]\[\033[00;36m\]\w\[\033[01;37m\]> \[\033[00m\]'
     ;;
   *)
     export BRANCH="trunk"
