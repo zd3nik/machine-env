@@ -15,13 +15,10 @@ case "$1" in
     ;;
 esac
 
-export PROMPT_COMMAND='echo -ne "\\e]0;Qt ${QTVER}\\007"'
+export PROMPT_COMMAND='echo -ne "\\e]0;[Qt ${QTVER}] $(pwd)\\007"'
 export TME_PACKAGE="$HOME/share/jenkins/tme-libs/${TME_VERSION}/tme-${TME_VERSION}-Linux.tgz"
 export CMAKE_PREFIX_PATH="$HOME/usr/vendor-$BRANCH"
 export VENDOR_INSTALL_DIR="$CMAKE_PREFIX_PATH"
-
-# add $GCC_DIR/usr/lib64:$GCC_DIR/lib ???
-export LD_LIBRARY_PATH="$QTLIB:$CMAKE_PREFIX_PATH/lib"
 
 # TODO if QTVER < 5.6 export QTDIR="/opt/Qt${QTVER}/${QTVER%.*}/gcc_64"
 export QTDIR="/opt/Qt${QTVER}/${QTVER}/gcc_64"
@@ -30,6 +27,9 @@ export QTINC="${QTDIR}/include"
 export QTLIB="${QTDIR}/lib"
 export QMAKESPEC="linux-g++-64"
 export PATH="$QTDIR/bin:$PATH"
+
+# add $GCC_DIR/usr/lib64:$GCC_DIR/lib ???
+export DEV_LD_LIBRARY_PATH="$QTLIB:$CMAKE_PREFIX_PATH/lib"
 
 mkdir -p "$HOME/development/$BRANCH"
 cd "$HOME/development/$BRANCH"
