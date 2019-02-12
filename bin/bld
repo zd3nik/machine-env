@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
-if [ -f Makefile ]; then
+for d in . .. ../build ../build-debug ../build-release; do
+  if [ -f "$d/Makefile" ]; then
+    BUILD_DIR="$d"
+    [ "$BUILD_DIR" != "." ] && pushd "$BUILD_DIR"
     LD_LIBRARY_PATH="$LD_PATH" make "$@"
-elif [ -f ../Makefile ]; then
-    LD_LIBRARY_PATH="$LD_PATH" make -f ../Makefile "$@"
-else
-    make --help
-    return 1
+    break
+  fi
+done
+if [ ! "$BUILD_DIR" ]; then
+  make --help
+  return 1
 fi
 
 [ $? -eq 0 ] && echo -e "\e[92mOK\e[0m" || echo -e "\e[91mFAILED\e[0m"
+[ "$BUILD_DIR" != "." ] && popd
 
