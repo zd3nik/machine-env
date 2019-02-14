@@ -116,16 +116,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ ! $MY_ENV_SET ]; then
-  export MY_ENV_SET=1
-  export SVN_EDITOR="vim" # set to whatever editor you prefer
-  export GIT_EDITOR="vim" # set to whatever editor you prefer
-  export QMAKESPEC="linux-g++-64"
-  export CFLAGS="-m64 -fPIC"
-  export CXXFLAGS="-m64 -fPIC"
-  export VERTICAINI="/etc/vertica.ini"
-  export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+export SVN_EDITOR="vim" # set to whatever editor you prefer
+export GIT_EDITOR="vim" # set to whatever editor you prefer
+export VERTICAINI="/etc/vertica.ini"
 
-  . dev
-fi
+# setup development environment variables
+. dev
 
