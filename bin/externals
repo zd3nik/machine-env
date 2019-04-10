@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+for i in $(find . -type d | grep -v .svn); do svn pg svn:externals "$i" 2>/dev/null | egrep --color=auto "branches|tags" && echo "$i"; done
