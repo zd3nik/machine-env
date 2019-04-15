@@ -15,5 +15,5 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-qmake BUILD_TYPE="${BUILD_TYPE}" -spec linux-g++-64 QMAKE_LINK="${CXX}" QMAKE_LINK_SHLIB="${CXX}" "${ARGS[@]}"
+qmake BUILD_TYPE="${BUILD_TYPE}" -spec linux-g++-64 "${ARGS[@]}"
 
