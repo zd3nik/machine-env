@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+uuid | tr -d "-" | tr "a-z" "A-Z"
