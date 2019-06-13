@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+for i in `find . -type d -not -path "*/.svn*"`; do
+  X=$(svn pg svn:externals "$i" 2>/dev/null)
+  if [ "$X" ]; then
+    echo "=== $i ==="
+    echo "$X"
+    echo
+  fi
+done
