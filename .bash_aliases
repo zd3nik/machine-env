@@ -1,5 +1,5 @@
 branchFunction() {
-  [ -$# -gt 0 ] && . dev "$@" || . dev 3.6.x
+  [ $# -gt 0 ] && . dev "$@" || . dev 3.6.x
 }
 
 alias trunk=". dev trunk"
