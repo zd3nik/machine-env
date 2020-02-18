@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
+do_pop=0
 for d in . .. ../build ../build-debug ../build-release; do
   if [ -f "$d/Makefile" ]; then
     BUILD_DIR="$d"
-    [ "$BUILD_DIR" != "." ] && pushd "$BUILD_DIR"
+    if [ "$BUILD_DIR" != "." ]; then
+      pushd "$BUILD_DIR"
+      do_pop=1
+    fi
     make "$@"
     break
   fi
@@ -12,6 +16,10 @@ if [ ! "$BUILD_DIR" ]; then
   return 1
 fi
 
-[ $? -eq 0 ] && echo -e "\e[92mOK\e[0m" || echo -e "\e[91mFAILED\e[0m"
-[ "$BUILD_DIR" != "." ] && popd
+result=$?
+[ $result -eq 0 ] && echo -e "\e[92mOK\e[0m" || echo -e "\e[91mFAILED\e[0m"
+if [ $do_pop -eq 1 ]; then
+  popd
+fi
 
+exit $result
