@@ -15,7 +15,8 @@ while [ $# -gt 0 ]; do
       ;;
     -old)
       OLD_STYLE=1
-      PS1_MSG="OLD STYLE ${PS1_MSG}"
+      PS1_MSG="${PS1_MSG} OLD STYLE"
+      shift
       ;;
     -qt)
       [ "$2" ] && QTVER="$2"
