@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 for i in $(find . -type d | grep -v .svn); do
-  X=$(svn pg svn:externals "$i" 2>/dev/null | egrep "trunk|branches|tags")
+  X=$(svn pg svn:externals "$i" 2>/dev/null)
   if [ "$X" ]; then
     echo "=== $i ==="
-    echo "$X" | egrep --color=auto "trunk|branches|tags"
+    echo "$X" | ack --passthru --color "trunk|branches|tags"
     echo
   fi
 done
