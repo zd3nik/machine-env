@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
+ORIG_DIR="$(pwd)"
 BUILD_DIR=
 result=99
 do_pop=0
-for d in . .. ../build ../build-debug ../build-release; do
-  if [ -f "$d/Makefile" ]; then
-    BUILD_DIR="$d"
+for f in ./Makefile ../Makefile ../[Bb]uild*/Makefile; do
+  if [ -f "$f" ]; then
+    BUILD_DIR="$(dirname "$f")"
     break;
   fi
 done
 
-if [ ! "$BUILD_DIR" ]; then
+if [ ! "${BUILD_DIR}" ]; then
   make --help
   return 1
 fi
 
-if [ "$BUILD_DIR" != "." ]; then
-  pushd "$BUILD_DIR"
+if [ "${BUILD_DIR}" != "." ] && [ "${BUILD_DIR}" != "${ORIG_DIR}" ]; then
+  pushd "${BUILD_DIR}"
   do_pop=1
 fi
 make "$@"
