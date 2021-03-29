@@ -1,0 +1,2 @@
+export CODEARTIFACT_TOKEN=$(aws codeartifact get-authorization-token --domain cea --output text --query authorizationToken "$@")
+[ $? -eq 0 ] && echo ${CODEARTIFACT_TOKEN}
