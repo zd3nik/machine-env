@@ -2,7 +2,7 @@
 
 export QTVER="5.6.3"
 export TME_VERSION="2.8.5.4"
-export JAVA_VERSION="8"
+export JAVA_VERSION=
 export PS1_MSG=
 OLD_STYLE=0
 NO_CD=0
@@ -56,6 +56,7 @@ if [ $OLD_STYLE -eq 1 ]; then
   export TME_PACKAGE="$HOME/share/jenkins/tme-libs/${TME_VERSION}/tme-${TME_VERSION}-Linux.tgz"
   export CMAKE_PREFIX_PATH="$HOME/usr/vendor-$BRANCH"
   export VENDOR_INSTALL_DIR="$CMAKE_PREFIX_PATH"
+# TODO if QTVER < 5.6 export QTDIR="/opt/Qt${QTVER}/${QTVER%.*}/gcc_64"
   export QTDIR="/opt/Qt${QTVER}/${QTVER}/gcc_64"
   export QTSRC="${QTDIR}/src"
   export QTINC="${QTDIR}/include"
@@ -80,7 +81,13 @@ else
   unset LDPATH
 fi
 
-export JAVA_HOME="/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64"
+if [ "$JAVA_VERSION" ]; then
+  export JAVA_HOME="/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64"
+  export PATH="$JAVA_HOME/bin:$PATH"
+elif [ ! "${JAVA_HOME}" ]; then
+  export JAVA_HOME="$(dirname $(dirname $(command -v java)))"
+fi
+
 if [ "$QTVER" ]; then
   export PROMPT_COMMAND='echo -ne "\\e]0;[${BRANCH} Qt ${QTVER}] $(pwd)\\007"'
 else

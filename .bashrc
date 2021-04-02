@@ -116,9 +116,14 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export SVN_EDITOR="vim" # set to whatever editor you prefer
-export GIT_EDITOR="vim" # set to whatever editor you prefer
+export JAVA_HOME="/home/schidester/usr/zulu8.50.0.51-ca-jdk8.0.275-linux_x64"
+export SVN_EDITOR="vim"
+export GIT_EDITOR="vim"
 export VERTICAINI="/etc/vertica.ini"
+export PATH="$HOME/bin:$JAVA_HOME/bin:$PATH"
+export AWS_DEFAULT_PROFILE="cea-identity"
+export CODEARTIFACT_BASE_URL="https://cea-776539290874.d.codeartifact.us-west-2.amazonaws.com"
+complete -C '/usr/local/bin/aws_completer' aws
 
 # setup development environment variables
 . dev
